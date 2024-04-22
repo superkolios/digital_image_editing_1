@@ -24,7 +24,7 @@ def perform_adaptive_hist_equalization(img_array: np.ndarray, region_len_h: int,
     equalized_img = np.zeros((img_height, img_width), dtype=np.uint8)
 
     center_x = region_len_w/2
-    center_y = region_len_w/2
+    center_y = region_len_h/2
     for y in range(img_height):
         for x in range(img_width):
             # find region
