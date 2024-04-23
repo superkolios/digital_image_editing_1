@@ -11,6 +11,10 @@ def get_equalization_transform_of_img( img_array: np.ndarray,) -> np.ndarray:
     histogram = histogram/ num_of_pixeles
     yk = np.cumsum(histogram)
     y0 = yk[0]
+    if (y0 == 1):
+        # todo: return a defult transform so program continues execution
+        print('region has only zeros')
+        exit()
     yk = np.round((yk - y0)/(1 - y0) * 255)
     return yk.astype(int)
 
