@@ -31,7 +31,7 @@ def perform_adaptive_hist_equalization(img_array: np.ndarray, region_len_h: int,
             region_x = x - (x % region_len_w)
             region_y = y - (y % region_len_h)
             pixel_value = img_array[y,x]
-            
+
             # check if pixel is an outer point
             if (y < region_len_h/2 or y >= img_height - (region_len_h)/2 or x < region_len_w/2 or x >= img_width - (region_len_w)/2):
                 equalized_img[y, x] = region_to_eq_transform[(region_x, region_y)][pixel_value]
@@ -74,4 +74,21 @@ def perform_adaptive_hist_equalization(img_array: np.ndarray, region_len_h: int,
                     b = (relative_y - region_len_h/2)/region_len_h
 
                 equalized_img[y,x] = (1 - a)*(1 - b)*ul + (1 - a)*b*dl + a*(1 - b)*ur + a*b*dr
+    return equalized_img
+
+# adaptive hist equalization without interpolation
+def perform_adaptive_hist_equalization_simple(img_array: np.ndarray, region_len_h: int,
+                                              region_len_w: int) -> np.ndarray:
+    
+    region_to_eq_transform = calculate_eq_transformations_of_regions(img_array, region_len_h, region_len_w)
+    img_height, img_width = img_array.shape
+    equalized_img = np.zeros((img_height, img_width), dtype=np.uint8)
+
+    for y in range(img_height):
+        for x in range(img_width):
+            # find region
+            region_x = x - (x % region_len_w)
+            region_y = y - (y % region_len_h)
+            pixel_value = img_array[y,x]
+            equalized_img[y, x] = region_to_eq_transform[(region_x, region_y)][pixel_value]
     return equalized_img
