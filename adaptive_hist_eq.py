@@ -51,6 +51,10 @@ def perform_adaptive_hist_equalization(img_array: np.ndarray, region_len_h: int,
                 
                 # find neigtboring regions based on the position to the center of the region
                 # and calculate weights
+                # up: y position of regions above the pixel
+                # down: y position of regions below the pixel
+                # left: x position of regions left of the pixel
+                # right: x position of regions right of the pixel
                 if (relative_X < center_x):
                     left = region_x - region_len_w
                     right = region_x
@@ -67,7 +71,7 @@ def perform_adaptive_hist_equalization(img_array: np.ndarray, region_len_h: int,
                 else:
                     up = region_y
                     down = region_y + region_len_h
-                    b = (relative_y - region_len_h/2)/region_len_h                
+                    b = (relative_y - region_len_h/2)/region_len_h
                 
                 # Retrieve the equalization transformations for the four neighboring regions.
                 # ul: up left
@@ -99,5 +103,7 @@ def perform_adaptive_hist_equalization_no_interpolation(img_array: np.ndarray, r
             region_x = x - (x % region_len_w)
             region_y = y - (y % region_len_h)
             pixel_value = img_array[y,x]
+            
+            # apply transformation without interpolation
             equalized_img[y, x] = region_to_eq_transform[(region_x, region_y)][pixel_value]
     return equalized_img
