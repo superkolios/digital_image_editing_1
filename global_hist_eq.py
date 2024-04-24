@@ -30,4 +30,5 @@ def get_equalization_transform_of_img( img_array: np.ndarray,) -> np.ndarray:
 
 def perform_global_hist_equalization(img_array: np.ndarray,) -> np.ndarray:
     yk = get_equalization_transform_of_img(img_array)
-    return yk[img_array]
+    equalized_img = yk[img_array]
+    return equalized_img
