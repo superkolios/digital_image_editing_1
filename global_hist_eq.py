@@ -25,7 +25,7 @@ def get_equalization_transform_of_img( img_array: np.ndarray,) -> np.ndarray:
     
     yk = np.round((yk - y0)/(1 - y0) * 255)
     equalization_transform = yk.astype(np.uint8)
-    return yk.astype(equalization_transform)
+    return equalization_transform
 
 
 def perform_global_hist_equalization(img_array: np.ndarray,) -> np.ndarray:
