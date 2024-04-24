@@ -14,7 +14,8 @@ bw_img = img.convert("L")
 # obtain the underlying np array
 img_array = np.array(bw_img)
 
-# question 1
+
+# Question 1: Visualize equalization transform
 equalization_transform = get_equalization_transform_of_img(img_array)
 fig_1 = plt.figure()
 fig_1.canvas.manager.set_window_title('Equalization transform')
@@ -24,11 +25,12 @@ plt.ylabel('output value')
 plt.stairs(equalization_transform, baseline=None)
 
 
-# question 2
-fig, axs = plt.subplots(2, 2)
-fig.subplots_adjust(wspace=0.5)
-fig.canvas.manager.set_window_title('Global histogram equalization')
+# Question 2: Global histogram equalization
+fig_2, axs = plt.subplots(2, 2)
+fig_2.subplots_adjust(wspace=0.5)
+fig_2.canvas.manager.set_window_title('Global histogram equalization')
 
+# original image and it's histogram 
 axs[0,0].imshow(img_array, cmap='gray')
 axs[0,0].set_title('Original image')
 axs[0,0].axis('off')
@@ -37,6 +39,7 @@ axs[1,0].set_title('Histogram')
 axs[1,0].set_ylabel('count')
 axs[1,0].set_xlabel('brightness')
 
+# global equalised image and it's histogram
 global_eq_img = perform_global_hist_equalization(img_array)
 axs[0,1].imshow(global_eq_img, cmap='gray')
 axs[0,1].set_title('Global equalised image')
@@ -47,12 +50,13 @@ axs[1,1].set_ylabel('count')
 axs[1,1].set_xlabel('brightness')
 
 
-# question 3
-fig, axs = plt.subplots(2, 3)
-fig.set_figwidth(10)
-fig.subplots_adjust(wspace=0.5)
-fig.canvas.manager.set_window_title('Adaptive histogram equalization')
+# Question 3: Adaptive histogram equalization
+fig_3, axs = plt.subplots(2, 3)
+fig_3.set_figwidth(10)
+fig_3.subplots_adjust(wspace=0.5)
+fig_3.canvas.manager.set_window_title('Adaptive histogram equalization')
 
+# original image and it's histogram 
 axs[0,0].imshow(img_array, cmap='gray')
 axs[0,0].set_title('Original image')
 axs[0,0].axis('off')
@@ -61,18 +65,20 @@ axs[1,0].set_title('Histogram')
 axs[1,0].set_ylabel('count')
 axs[1,0].set_xlabel('brightness')
 
+# Adaptive histogram equalised image with interpolation and it's histogram 
 adaptive_eq_img = perform_adaptive_hist_equalization(img_array, region_len_h=36, region_len_w=48)
 axs[0,1].imshow(adaptive_eq_img, cmap='gray')
-axs[0,1].set_title('Adaptive histogram \n equalised image')
+axs[0,1].set_title(' Adaptive histogram \n equalised image ')
 axs[0,1].axis('off')
 axs[1,1].hist(adaptive_eq_img.ravel(), bins=256, range=(0, 256))
 axs[1,1].set_title('Histogram')
 axs[1,1].set_ylabel('count')
 axs[1,1].set_xlabel('brightness')
 
-adaptive_eq_img_no_interpolation = perform_adaptive_hist_equalization_simple(img_array, region_len_h=36, region_len_w=48)
+# Adaptive histogram equalised image without interpolation and it's histogram
+adaptive_eq_img_no_interpolation = perform_adaptive_hist_equalization_no_interpolation(img_array, region_len_h=36, region_len_w=48)
 axs[0,2].imshow(adaptive_eq_img_no_interpolation, cmap='gray')
-axs[0,2].set_title('Adaptive histogram equalised \n image without interpolation')
+axs[0,2].set_title(' Adaptive histogram equalised \n image without interpolation ')
 axs[0,2].axis('off')
 axs[1,2].hist(adaptive_eq_img_no_interpolation.ravel(), bins=256, range=(0, 256))
 axs[1,2].set_title('Histogram')
